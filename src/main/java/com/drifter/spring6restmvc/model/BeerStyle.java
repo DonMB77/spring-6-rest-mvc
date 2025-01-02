@@ -6,15 +6,6 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Data
-public class BeerStyle {
-    private UUID id;
-    private Integer version;
-    private String beerName;
-    private BeerStyle beerStyle;
-    private String upc;
-    private Integer quantityOnHand;
-    private BigDecimal price;
-    private LocalDateTime createdDate;
-    private LocalDateTime updatedDate;
+public enum BeerStyle {
+    LAGER, PILSNER, STOUT, GOSE, PORTER, ALE, WHEAT, IPA, PALE_ALE, SAISON
 }

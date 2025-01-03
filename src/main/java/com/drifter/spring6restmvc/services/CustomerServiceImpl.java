@@ -76,4 +76,9 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerMap.put(customerId, fetchedCustomer);
     }
+
+    @Override
+    public void deleteById(Integer customerId) {
+        customerMap.remove(customerId);
+    }
 }

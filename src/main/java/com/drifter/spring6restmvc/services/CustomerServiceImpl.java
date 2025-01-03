@@ -1,7 +1,9 @@
 package com.drifter.spring6restmvc.services;
 
+import com.drifter.spring6restmvc.model.Beer;
 import com.drifter.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -80,5 +82,14 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteById(Integer customerId) {
         customerMap.remove(customerId);
+    }
+
+    @Override
+    public void patchById(Integer customerId, Customer customer) {
+        Customer fetchedCustomer = customerMap.get(customerId);
+
+        if (StringUtils.hasText(customer.getCostumerName())) {
+            fetchedCustomer.setCostumerName(customer.getCostumerName());
+        }
     }
 }

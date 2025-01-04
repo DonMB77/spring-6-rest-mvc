@@ -14,12 +14,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/v1/customer")
 public class CustomerController {
+
+    public static final String CUSTOMER_PATH = "/api/v1/customer";
+    public static final String CUSTOMER_PATH_ID = CUSTOMER_PATH + "/{customerId}";
 
     private final CustomerService customerService;
 
-    @RequestMapping(value = "{customerId}", method = RequestMethod.PATCH)
+    @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.PATCH)
     public ResponseEntity handlePatchRequest(@PathVariable("customerId") Integer customerId, @RequestBody Customer customer) {
 
         customerService.patchById(customerId, customer);
@@ -27,7 +29,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "{customerId}", method = RequestMethod.DELETE)
+    @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.DELETE)
     public ResponseEntity handleDeleteRequest(@PathVariable("customerId") Integer customerId, Customer customer) {
 
         customerService.deleteById(customerId);
@@ -35,7 +37,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = "{customerId}")
+    @RequestMapping(value = CUSTOMER_PATH_ID)
     public ResponseEntity handlePutRequest (@PathVariable("customerId") Integer customerId, @RequestBody Customer customer) {
 
         customerService.updateById(customerId, customer);
@@ -43,7 +45,7 @@ public class CustomerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = CUSTOMER_PATH, method = RequestMethod.POST)
     public ResponseEntity handlePostRequest (@RequestBody Customer customer) {
 
         Customer savedCustomer = customerService.saveCustomer(customer);
@@ -53,12 +55,12 @@ public class CustomerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = CUSTOMER_PATH, method = RequestMethod.GET)
     private List<Customer> getAllCustomers () {
         return customerService.getAllCustomers();
     }
 
-    @RequestMapping(value = "/{customerId}", method = RequestMethod.GET)
+    @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.GET)
     private Customer getSingleCustomerById (@PathVariable("customerId") Integer id) {
         return customerService.getCustomerById(id);
     }

@@ -25,7 +25,7 @@ public class BeerController {
 
     private final BeerService beerService;
 
-    @RequestMapping(value = BEER_PATH_ID, method = RequestMethod.PATCH)
+    @PatchMapping(BEER_PATH_ID)
     public ResponseEntity updatePatchById(@PathVariable("beerId") UUID beerUuid, @RequestBody Beer beer) {
 
         beerService.patchBeerById(beerUuid, beer);
@@ -33,7 +33,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = BEER_PATH_ID, method = RequestMethod.DELETE)
+    @DeleteMapping(BEER_PATH_ID)
     public ResponseEntity deleteById(@PathVariable("beerId") UUID beerId, Beer beer) {
 
         beerService.deleteById(beerId);
@@ -41,7 +41,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = BEER_PATH_ID, method = RequestMethod.PUT)
+    @PutMapping(BEER_PATH_ID)
     public ResponseEntity updateById(@PathVariable("beerId") UUID beerUuid, @RequestBody Beer beer) {
 
         beerService.updateBeerById(beerUuid, beer);
@@ -49,7 +49,7 @@ public class BeerController {
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
-    @RequestMapping(value = BEER_PATH, method = RequestMethod.POST)
+    @PostMapping(BEER_PATH)
     public ResponseEntity handlePost(@RequestBody Beer beer) {
 
         Beer savedBeer = beerService.saveNewBeer(beer);
@@ -60,12 +60,12 @@ public class BeerController {
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = BEER_PATH, method = RequestMethod.GET)
+    @GetMapping(BEER_PATH)
     public List<Beer> listBears() {
         return beerService.listBeers();
     }
 
-    @RequestMapping(value = BEER_PATH_ID, method = RequestMethod.GET)
+    @GetMapping(BEER_PATH_ID)
     public Beer getBeerById(@PathVariable("beerId") UUID beerId) {
 
         log.debug("Get beer by Id - in controller.");

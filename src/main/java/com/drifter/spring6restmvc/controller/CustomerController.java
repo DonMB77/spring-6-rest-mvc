@@ -3,6 +3,7 @@ package com.drifter.spring6restmvc.controller;
 import com.drifter.spring6restmvc.model.Customer;
 import com.drifter.spring6restmvc.services.CustomerService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/v1/customer")
 public class CustomerController {

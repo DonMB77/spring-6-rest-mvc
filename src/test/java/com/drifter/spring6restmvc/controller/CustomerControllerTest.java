@@ -6,12 +6,16 @@ import com.drifter.spring6restmvc.services.CustomerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.UUID;
+
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -39,10 +43,24 @@ class CustomerControllerTest {
     }
 
     @Test
+    void testDeleteById() throws Exception {
+        Customer customer = customerServiceImpl.getAllCustomers().getFirst();
+
+        mockMvc.perform(delete("/api/v1/customer/" + customer.getId().toString())
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+
+        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
+        verify(customerService).deleteById(integerArgumentCaptor.capture());
+
+        assertThat(customer.getId()).isEqualTo(integerArgumentCaptor.getValue());
+    }
+
+    @Test
     void testUpdateById () throws Exception {
         Customer customerToBeUpdated = customerServiceImpl.getAllCustomers().getFirst();
 
-        mockMvc.perform(put("/api/v1/customer" + customerToBeUpdated.getId().toString())
+        mockMvc.perform(put("/api/v1/customer/" + customerToBeUpdated.getId().toString())
                 .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(customerToBeUpdated)))

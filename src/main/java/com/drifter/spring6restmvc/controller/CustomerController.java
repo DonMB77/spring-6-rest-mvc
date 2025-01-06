@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +21,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.PATCH)
-    public ResponseEntity handlePatchRequest(@PathVariable("customerId") Integer customerId, @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity handlePatchRequest(@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
 
         customerService.patchById(customerId, customerDTO);
 
@@ -28,7 +29,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.DELETE)
-    public ResponseEntity handleDeleteRequest(@PathVariable("customerId") Integer customerId, CustomerDTO customerDTO) {
+    public ResponseEntity handleDeleteRequest(@PathVariable("customerId") UUID customerId, CustomerDTO customerDTO) {
 
         customerService.deleteById(customerId);
 
@@ -36,7 +37,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = CUSTOMER_PATH_ID)
-    public ResponseEntity handlePutRequest (@PathVariable("customerId") Integer customerId, @RequestBody CustomerDTO customerDTO) {
+    public ResponseEntity handlePutRequest (@PathVariable("customerId") UUID customerId, @RequestBody CustomerDTO customerDTO) {
 
         customerService.updateById(customerId, customerDTO);
 
@@ -59,7 +60,7 @@ public class CustomerController {
     }
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.GET)
-    private CustomerDTO getSingleCustomerById (@PathVariable("customerId") Integer id) {
+    private CustomerDTO getSingleCustomerById (@PathVariable("customerId") UUID id) {
         return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
 }

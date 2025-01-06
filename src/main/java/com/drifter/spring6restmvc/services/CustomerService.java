@@ -4,17 +4,18 @@ import com.drifter.spring6restmvc.model.CustomerDTO;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface CustomerService {
     List<CustomerDTO> getAllCustomers();
 
-    Optional<CustomerDTO> getCustomerById(Integer id);
+    Optional<CustomerDTO> getCustomerById(UUID id);
 
     CustomerDTO saveCustomer(CustomerDTO savedCustomerDTO);
 
-    void updateById(Integer customerId, CustomerDTO customerDTO);
+    void updateById(UUID customerId, CustomerDTO customerDTO);
 
-    void deleteById(Integer customerId);
+    void deleteById(UUID customerId);
 
-    void patchById(Integer customerId, CustomerDTO customerDTO);
+    void patchById(UUID customerId, CustomerDTO customerDTO);
 }

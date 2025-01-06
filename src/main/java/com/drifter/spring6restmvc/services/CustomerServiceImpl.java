@@ -10,14 +10,14 @@ import java.util.*;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<Integer, CustomerDTO> customerMap;
+    private Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
         Random random1 = new Random();
         customerMap = new HashMap<>();
 
         CustomerDTO customerDTO1 = CustomerDTO.builder()
-                .id(random1.nextInt(1,100+1))
+                .id(UUID.randomUUID())
                 .version(1)
                 .costumerName("customer1")
                 .createdDate(LocalDateTime.now())
@@ -25,7 +25,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
 
         CustomerDTO customerDTO2 = CustomerDTO.builder()
-                .id(random1.nextInt(1,100+1))
+                .id(UUID.randomUUID())
                 .version(1)
                 .costumerName("customer2")
                 .createdDate(LocalDateTime.now())
@@ -33,7 +33,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .build();
 
         CustomerDTO customerDTO3 = CustomerDTO.builder()
-                .id(random1.nextInt(1,100+1))
+                .id(UUID.randomUUID())
                 .version(1)
                 .costumerName("customer3")
                 .createdDate(LocalDateTime.now())
@@ -52,16 +52,14 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public Optional<CustomerDTO> getCustomerById(Integer id) {
+    public Optional<CustomerDTO> getCustomerById(UUID id) {
         return Optional.of(customerMap.get(id));
     }
 
     @Override
     public CustomerDTO saveCustomer(CustomerDTO savedCustomerDTO) {
-        Random random1 = new Random();
-
         CustomerDTO newCustomerDTO = CustomerDTO.builder()
-                .id(random1.nextInt(1, 100+1))
+                .id(UUID.randomUUID())
                 .version(1)
                 .costumerName(savedCustomerDTO.getCostumerName())
                 .createdDate(LocalDateTime.now())
@@ -74,7 +72,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void updateById(Integer customerId, CustomerDTO customerDTO) {
+    public void updateById(UUID customerId, CustomerDTO customerDTO) {
         CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
         fetchedCustomerDTO.setId(customerId);
         fetchedCustomerDTO.setCostumerName(customerDTO.getCostumerName());
@@ -83,12 +81,12 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void deleteById(Integer customerId) {
+    public void deleteById(UUID customerId) {
         customerMap.remove(customerId);
     }
 
     @Override
-    public void patchById(Integer customerId, CustomerDTO customerDTO) {
+    public void patchById(UUID customerId, CustomerDTO customerDTO) {
         CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
 
         if (StringUtils.hasText(customerDTO.getCostumerName())) {

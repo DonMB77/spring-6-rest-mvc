@@ -39,7 +39,7 @@ class CustomerControllerTest {
     ObjectMapper objectMapper;
 
     @Captor
-    ArgumentCaptor<Integer> integerArgumentCaptor;
+    ArgumentCaptor<UUID> uuidArgumentCaptor;
 
     @Captor
     ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
@@ -62,8 +62,8 @@ class CustomerControllerTest {
                         .content(objectMapper.writeValueAsString(customerMap)))
                 .andExpect(status().isNoContent());
 
-        verify(customerService).patchById(integerArgumentCaptor.capture(), customerArgumentCaptor.capture());
-        assertThat(customerDTO.getId()).isEqualTo(integerArgumentCaptor.getValue());
+        verify(customerService).patchById(uuidArgumentCaptor.capture(), customerArgumentCaptor.capture());
+        assertThat(customerDTO.getId()).isEqualTo(uuidArgumentCaptor.getValue());
         assertThat(customerMap.get("costumerName")).isEqualTo(customerArgumentCaptor.getValue().getCostumerName());
     }
 
@@ -75,10 +75,9 @@ class CustomerControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
-        ArgumentCaptor<Integer> integerArgumentCaptor = ArgumentCaptor.forClass(Integer.class);
-        verify(customerService).deleteById(integerArgumentCaptor.capture());
+        verify(customerService).deleteById(uuidArgumentCaptor.capture());
 
-        assertThat(customerDTO.getId()).isEqualTo(integerArgumentCaptor.getValue());
+        assertThat(customerDTO.getId()).isEqualTo(uuidArgumentCaptor.getValue());
     }
 
     @Test
@@ -91,7 +90,7 @@ class CustomerControllerTest {
                 .content(objectMapper.writeValueAsString(customerDTOToBeUpdated)))
                 .andExpect(status().isNoContent());
 
-        verify(customerService).updateById(any(Integer.class), any(CustomerDTO.class));
+        verify(customerService).updateById(any(UUID.class), any(CustomerDTO.class));
     }
 
     @Test
@@ -125,9 +124,9 @@ class CustomerControllerTest {
     void getCustomerByIdNotFound() throws Exception {
         Random r1 = new Random();
 
-        given(customerService.getCustomerById(any(Integer.class))).willThrow(NotFoundException.class);
+        given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
-        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, r1.nextInt(1,100+1)))
+        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID()))
                 .andExpect(status().isNotFound());
     }
 
@@ -141,7 +140,7 @@ class CustomerControllerTest {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(exampleCustomerDTO.getId())))
+                .andExpect(jsonPath("$.id", is(exampleCustomerDTO.getId().toString())))
                 .andExpect(jsonPath("$.costumerName", is(exampleCustomerDTO.getCostumerName())));
     }
 }

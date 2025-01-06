@@ -1,11 +1,12 @@
 package com.drifter.spring6restmvc.entities;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -15,7 +16,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class Customer {
     @Id
-    private Integer id;
+    @GeneratedValue(generator = "UUID")
+    @UuidGenerator
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
+    private UUID id;
     @Version
     private Integer version;
     private String costumerName;

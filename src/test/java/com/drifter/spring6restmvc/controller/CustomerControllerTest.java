@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -121,6 +122,16 @@ class CustomerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(3)));
+    }
+
+    @Test
+    void getCustomerByIdNotFound() throws Exception {
+        Random r1 = new Random();
+
+        given(customerService.getCustomerById(any(Integer.class))).willThrow(NotFoundException.class);
+
+        mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, r1.nextInt(1,100+1)))
+                .andExpect(status().isNotFound());
     }
 
     @Test

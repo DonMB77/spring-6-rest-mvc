@@ -62,6 +62,6 @@ public class CustomerController {
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.GET)
     private Customer getSingleCustomerById (@PathVariable("customerId") Integer id) {
-        return customerService.getCustomerById(id);
+        return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
 }

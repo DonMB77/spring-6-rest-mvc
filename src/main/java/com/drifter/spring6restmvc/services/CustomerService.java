@@ -4,11 +4,12 @@ import com.drifter.spring6restmvc.model.Customer;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerService {
     List<Customer> getAllCustomers();
 
-    Customer getCustomerById(Integer id);
+    Optional<Customer> getCustomerById(Integer id);
 
     Customer saveCustomer(Customer savedCustomer);
 

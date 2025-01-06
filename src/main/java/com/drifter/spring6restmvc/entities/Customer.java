@@ -1,16 +1,22 @@
-package com.drifter.spring6restmvc.model;
+package com.drifter.spring6restmvc.entities;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import lombok.Builder;
-import lombok.Data;
+import jakarta.persistence.Version;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @Builder
-public class CustomerDTO {
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+public class Customer {
+    @Id
     private Integer id;
+    @Version
     private Integer version;
     private String costumerName;
     private LocalDateTime createdDate;

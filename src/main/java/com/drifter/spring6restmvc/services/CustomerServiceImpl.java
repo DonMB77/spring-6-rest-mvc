@@ -18,6 +18,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO customerDTO1 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
+                .version(1)
                 .costumerName("customer1")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
@@ -25,6 +26,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO customerDTO2 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
+                .version(1)
                 .costumerName("customer2")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
@@ -32,6 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO customerDTO3 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
+                .version(1)
                 .costumerName("customer3")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
@@ -59,6 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
 
         CustomerDTO newCustomerDTO = CustomerDTO.builder()
                 .id(random1.nextInt(1, 100+1))
+                .version(1)
                 .costumerName(savedCustomerDTO.getCostumerName())
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())

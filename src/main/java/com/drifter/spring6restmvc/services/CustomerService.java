@@ -1,21 +1,20 @@
 package com.drifter.spring6restmvc.services;
 
-import com.drifter.spring6restmvc.model.Customer;
-import org.springframework.stereotype.Service;
+import com.drifter.spring6restmvc.model.CustomerDTO;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface CustomerService {
-    List<Customer> getAllCustomers();
+    List<CustomerDTO> getAllCustomers();
 
-    Optional<Customer> getCustomerById(Integer id);
+    Optional<CustomerDTO> getCustomerById(Integer id);
 
-    Customer saveCustomer(Customer savedCustomer);
+    CustomerDTO saveCustomer(CustomerDTO savedCustomerDTO);
 
-    void updateById(Integer customerId, Customer customer);
+    void updateById(Integer customerId, CustomerDTO customerDTO);
 
     void deleteById(Integer customerId);
 
-    void patchById(Integer customerId, Customer customer);
+    void patchById(Integer customerId, CustomerDTO customerDTO);
 }

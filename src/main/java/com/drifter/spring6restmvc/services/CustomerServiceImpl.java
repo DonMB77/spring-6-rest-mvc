@@ -1,7 +1,6 @@
 package com.drifter.spring6restmvc.services;
 
-import com.drifter.spring6restmvc.model.Beer;
-import com.drifter.spring6restmvc.model.Customer;
+import com.drifter.spring6restmvc.model.CustomerDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -11,72 +10,72 @@ import java.util.*;
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
-    private Map<Integer, Customer> customerMap;
+    private Map<Integer, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
         Random random1 = new Random();
         customerMap = new HashMap<>();
 
-        Customer customer1 = Customer.builder()
+        CustomerDTO customerDTO1 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
                 .costumerName("customer1")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        Customer customer2 = Customer.builder()
+        CustomerDTO customerDTO2 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
                 .costumerName("customer2")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        Customer customer3 = Customer.builder()
+        CustomerDTO customerDTO3 = CustomerDTO.builder()
                 .id(random1.nextInt(1,100+1))
                 .costumerName("customer3")
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        customerMap.put(customer1.getId(), customer1);
-        customerMap.put(customer2.getId(), customer2);
-        customerMap.put(customer3.getId(), customer3);
+        customerMap.put(customerDTO1.getId(), customerDTO1);
+        customerMap.put(customerDTO2.getId(), customerDTO2);
+        customerMap.put(customerDTO3.getId(), customerDTO3);
 
     }
 
     @Override
-    public List<Customer> getAllCustomers() {
+    public List<CustomerDTO> getAllCustomers() {
         return new ArrayList<>(customerMap.values());
     }
 
     @Override
-    public Optional<Customer> getCustomerById(Integer id) {
+    public Optional<CustomerDTO> getCustomerById(Integer id) {
         return Optional.of(customerMap.get(id));
     }
 
     @Override
-    public Customer saveCustomer(Customer savedCustomer) {
+    public CustomerDTO saveCustomer(CustomerDTO savedCustomerDTO) {
         Random random1 = new Random();
 
-        Customer newCustomer = Customer.builder()
+        CustomerDTO newCustomerDTO = CustomerDTO.builder()
                 .id(random1.nextInt(1, 100+1))
-                .costumerName(savedCustomer.getCostumerName())
+                .costumerName(savedCustomerDTO.getCostumerName())
                 .createdDate(LocalDateTime.now())
                 .lastModifiedDate(LocalDateTime.now())
                 .build();
 
-        customerMap.put(newCustomer.getId(), newCustomer);
+        customerMap.put(newCustomerDTO.getId(), newCustomerDTO);
 
-        return newCustomer;
+        return newCustomerDTO;
     }
 
     @Override
-    public void updateById(Integer customerId, Customer customer) {
-        Customer fetchedCustomer = customerMap.get(customerId);
-        fetchedCustomer.setId(customerId);
-        fetchedCustomer.setCostumerName(customer.getCostumerName());
+    public void updateById(Integer customerId, CustomerDTO customerDTO) {
+        CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
+        fetchedCustomerDTO.setId(customerId);
+        fetchedCustomerDTO.setCostumerName(customerDTO.getCostumerName());
 
-        customerMap.put(customerId, fetchedCustomer);
+        customerMap.put(customerId, fetchedCustomerDTO);
     }
 
     @Override
@@ -85,11 +84,11 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public void patchById(Integer customerId, Customer customer) {
-        Customer fetchedCustomer = customerMap.get(customerId);
+    public void patchById(Integer customerId, CustomerDTO customerDTO) {
+        CustomerDTO fetchedCustomerDTO = customerMap.get(customerId);
 
-        if (StringUtils.hasText(customer.getCostumerName())) {
-            fetchedCustomer.setCostumerName(customer.getCostumerName());
+        if (StringUtils.hasText(customerDTO.getCostumerName())) {
+            fetchedCustomerDTO.setCostumerName(customerDTO.getCostumerName());
         }
     }
 }

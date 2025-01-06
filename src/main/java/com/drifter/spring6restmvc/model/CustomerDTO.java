@@ -1,6 +1,5 @@
 package com.drifter.spring6restmvc.model;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
@@ -8,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class Customer {
+public class CustomerDTO {
     private Integer id;
     private String costumerName;
     private LocalDateTime createdDate;

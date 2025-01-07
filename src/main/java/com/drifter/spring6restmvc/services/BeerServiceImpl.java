@@ -16,7 +16,6 @@ import java.util.*;
 public class BeerServiceImpl implements BeerService {
 
     private Map<UUID, BeerDTO> beerMap;
-    private BeerRepository beerRepository;
 
     public BeerServiceImpl() {
         this.beerMap = new HashMap<>();

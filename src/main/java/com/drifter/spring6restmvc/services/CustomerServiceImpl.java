@@ -13,7 +13,6 @@ public class CustomerServiceImpl implements CustomerService {
     private Map<UUID, CustomerDTO> customerMap;
 
     public CustomerServiceImpl() {
-        Random random1 = new Random();
         customerMap = new HashMap<>();
 
         CustomerDTO customerDTO1 = CustomerDTO.builder()

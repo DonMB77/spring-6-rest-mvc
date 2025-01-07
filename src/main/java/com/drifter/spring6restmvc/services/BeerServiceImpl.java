@@ -2,6 +2,7 @@ package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.BeerStyle;
+import com.drifter.spring6restmvc.repositories.BeerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -15,6 +16,7 @@ import java.util.*;
 public class BeerServiceImpl implements BeerService {
 
     private Map<UUID, BeerDTO> beerMap;
+    private BeerRepository beerRepository;
 
     public BeerServiceImpl() {
         this.beerMap = new HashMap<>();

@@ -35,8 +35,6 @@ public class BootstrapData implements CommandLineRunner {
     private void loadBeerData() {
         if (beerRepository.count() == 0) {
             Beer beer1 = Beer.builder()
-                    .id(UUID.randomUUID())
-                    .version(1)
                     .beerName("Galaxy Cat")
                     .beerStyle(BeerStyle.PALE_ALE)
                     .upc("12345")
@@ -47,8 +45,6 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             Beer beer2 = Beer.builder()
-                    .id(UUID.randomUUID())
-                    .version(1)
                     .beerName("Crank")
                     .beerStyle(BeerStyle.PALE_ALE)
                     .upc("41231312")
@@ -59,8 +55,6 @@ public class BootstrapData implements CommandLineRunner {
                     .build();
 
             Beer beer3 = Beer.builder()
-                    .id(UUID.randomUUID())
-                    .version(1)
                     .beerName("Sunshine City")
                     .beerStyle(BeerStyle.IPA)
                     .upc("312321412")

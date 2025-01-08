@@ -55,12 +55,12 @@ public class CustomerController {
     }
 
     @RequestMapping(value = CUSTOMER_PATH, method = RequestMethod.GET)
-    private List<CustomerDTO> getAllCustomers () {
+    public List<CustomerDTO> getAllCustomers () {
         return customerService.getAllCustomers();
     }
 
     @RequestMapping(value = CUSTOMER_PATH_ID, method = RequestMethod.GET)
-    private CustomerDTO getSingleCustomerById (@PathVariable("customerId") UUID id) {
+    public CustomerDTO getSingleCustomerById (@PathVariable("customerId") UUID id) {
         return customerService.getCustomerById(id).orElseThrow(NotFoundException::new);
     }
 }

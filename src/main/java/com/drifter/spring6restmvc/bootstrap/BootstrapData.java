@@ -11,6 +11,7 @@ import com.drifter.spring6restmvc.services.BeerServiceJPA;
 import com.drifter.spring6restmvc.services.CustomerServiceJPA;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+@Component
 @RequiredArgsConstructor
 public class BootstrapData implements CommandLineRunner {
 

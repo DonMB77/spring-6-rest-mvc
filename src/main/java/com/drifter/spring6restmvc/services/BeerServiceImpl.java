@@ -99,8 +99,6 @@ public class BeerServiceImpl implements BeerService {
         fetchedBeerDTO.setPrice(beerDTO.getPrice());
         fetchedBeerDTO.setUpc(beerDTO.getUpc());
         fetchedBeerDTO.setQuantityOnHand(beerDTO.getQuantityOnHand());
-
-        beerMap.put(fetchedBeerDTO.getId(), fetchedBeerDTO);
         return Optional.of(fetchedBeerDTO);
     }
 

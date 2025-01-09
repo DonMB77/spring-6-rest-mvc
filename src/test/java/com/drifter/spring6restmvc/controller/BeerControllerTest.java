@@ -1,7 +1,6 @@
 package com.drifter.spring6restmvc.controller;
 
 import com.drifter.spring6restmvc.model.BeerDTO;
-import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.services.BeerService;
 import com.drifter.spring6restmvc.services.BeerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -11,13 +10,10 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -59,9 +55,9 @@ class BeerControllerTest {
     }
 
     @Test
-    void testCreateBeerNullBeerName() throws Exception {
+    void testCreateBeerNullReq() throws Exception {
 
-        // notice how we are not building a beerName
+        // notice how we are not building a beerName or any other required property
         BeerDTO beerDTO = BeerDTO.builder().build();
         given(beerService.saveNewBeer(any(BeerDTO.class))).willReturn(beerServiceImpl.listBeers().get(1));
 
@@ -70,7 +66,7 @@ class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(beerDTO)))
                 .andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.length()", is(2)))
+                .andExpect(jsonPath("$.length()", is(6)))
                 .andReturn();
 
         System.out.println(mvcResult.getResponse().getContentAsString());
@@ -108,6 +104,20 @@ class BeerControllerTest {
         verify(beerService).deleteById(uuidArgumentCaptor.capture());
 
         assertThat(beerDTO.getId()).isEqualTo(uuidArgumentCaptor.getValue());
+    }
+
+    @Test
+    void testUpdateBeerBlankReq() throws Exception {
+        BeerDTO beerDTOToBeUpdated = beerServiceImpl.listBeers().getFirst();
+        beerDTOToBeUpdated.setBeerName("");
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beerDTOToBeUpdated));
+
+        mockMvc.perform(put(BeerController.BEER_PATH_ID, beerDTOToBeUpdated.getId())
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(beerDTOToBeUpdated)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(1)));
     }
 
     @Test

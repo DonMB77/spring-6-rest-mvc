@@ -1,5 +1,6 @@
 package com.drifter.spring6restmvc.controller;
 
+import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.services.CustomerService;
 import com.drifter.spring6restmvc.services.CustomerServiceImpl;
@@ -13,6 +14,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.*;
 
@@ -47,6 +49,22 @@ class CustomerControllerTest {
     @BeforeEach
     void setUp() {
         customerServiceImpl  = new CustomerServiceImpl();
+    }
+
+    @Test
+    void testCreateBeerNullReq() throws Exception {
+
+        // notice how we are not building a beerName or any other required property
+        CustomerDTO customerDTO = CustomerDTO.builder().build();
+        given(customerService.saveCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.getAllCustomers().get(1));
+
+        MvcResult mvcResult = mockMvc.perform(post(CustomerController.CUSTOMER_PATH)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(customerDTO)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.length()", is(2)))
+                .andReturn();
     }
 
     @Test

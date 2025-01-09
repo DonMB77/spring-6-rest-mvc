@@ -2,6 +2,8 @@ package com.drifter.spring6restmvc.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,6 +15,8 @@ import java.util.UUID;
 public class CustomerDTO {
     private UUID id;
     private Integer version;
+    @NotNull
+    @NotBlank
     private String costumerName;
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;

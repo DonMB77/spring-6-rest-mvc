@@ -1,6 +1,7 @@
 package com.drifter.spring6restmvc.controller;
 
 import com.drifter.spring6restmvc.model.BeerDTO;
+import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.services.BeerService;
 import com.drifter.spring6restmvc.services.BeerServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,9 +11,12 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
@@ -75,6 +79,8 @@ class BeerControllerTest {
     void testDeleteBeer() throws Exception {
         BeerDTO beerDTO = beerServiceImpl.listBeers().getFirst();
 
+        given(beerService.deleteById(any())).willReturn(true);
+
         mockMvc.perform(delete(BeerController.BEER_PATH_ID, beerDTO.getId())
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
@@ -88,6 +94,7 @@ class BeerControllerTest {
     @Test
     void testUpdateBeer() throws Exception {
         BeerDTO beerDTOToBeUpdated = beerServiceImpl.listBeers().getFirst();
+        given(beerService.updateBeerById(any(), any())).willReturn(Optional.of(beerDTOToBeUpdated));
 
         mockMvc.perform(put(BeerController.BEER_PATH_ID, beerDTOToBeUpdated.getId())
                 .accept(MediaType.APPLICATION_JSON)
@@ -96,6 +103,7 @@ class BeerControllerTest {
                 .andExpect(status().isNoContent());
 
         verify(beerService).updateBeerById(any(UUID.class), any(BeerDTO.class));
+
     }
 
     @Test

@@ -2,7 +2,6 @@ package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.BeerStyle;
-import com.drifter.spring6restmvc.repositories.BeerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -94,7 +93,7 @@ public class BeerServiceImpl implements BeerService {
     }
 
     @Override
-    public void updateBeerById(UUID beerUuid, BeerDTO beerDTO) {
+    public Optional<BeerDTO> updateBeerById(UUID beerUuid, BeerDTO beerDTO) {
         BeerDTO fetchedBeerDTO = beerMap.get(beerUuid);
         fetchedBeerDTO.setBeerName(beerDTO.getBeerName());
         fetchedBeerDTO.setPrice(beerDTO.getPrice());
@@ -102,11 +101,14 @@ public class BeerServiceImpl implements BeerService {
         fetchedBeerDTO.setQuantityOnHand(beerDTO.getQuantityOnHand());
 
         beerMap.put(fetchedBeerDTO.getId(), fetchedBeerDTO);
+        return Optional.of(fetchedBeerDTO);
     }
 
     @Override
-    public void deleteById(UUID beerId) {
+    public Boolean deleteById(UUID beerId) {
         beerMap.remove(beerId);
+
+        return true;
     }
 
     @Override

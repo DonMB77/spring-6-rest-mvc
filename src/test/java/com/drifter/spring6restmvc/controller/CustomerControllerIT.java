@@ -1,14 +1,15 @@
 package com.drifter.spring6restmvc.controller;
 
-import com.drifter.spring6restmvc.entities.Beer;
 import com.drifter.spring6restmvc.entities.Customer;
-import com.drifter.spring6restmvc.model.BeerDTO;
+import com.drifter.spring6restmvc.mappers.CustomerMapper;
 import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,75 @@ class CustomerControllerIT {
 
     @Autowired
     CustomerRepository customerRepository;
+
+    @Autowired
+    CustomerMapper customerMapper;
+
+    @Transactional
+    @Rollback
+    @Test
+    void testPatchById() {
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                .costumerName("New Costumer")
+                .build();
+    }
+
+    @Transactional
+    @Rollback
+    @Test
+    void testPutById () {
+        Customer customer = customerRepository.findAll().getFirst();
+        CustomerDTO customerDTO = customerMapper.customerToCustomerDto(customer);
+        customerDTO.setId(null);
+        customerDTO.setVersion(null);
+        final String customerName = "UPDATED";
+        customerDTO.setCostumerName(customerName);
+
+        ResponseEntity responseEntity = customerController.handlePutRequest(customer.getId(), customerDTO);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        Customer updatedCustomer = customerRepository.findById(customer.getId()).get();
+        assertThat(updatedCustomer.getCostumerName()).isEqualTo(customerName);
+    }
+
+    @Transactional
+    @Rollback
+    @Test
+    void testHandlePostRequest () {
+        CustomerDTO customerDTO = CustomerDTO.builder()
+                .costumerName("New Costumer")
+                .build();
+
+        ResponseEntity responseEntity = customerController.handlePostRequest(customerDTO);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(201));
+        assertThat(responseEntity.getHeaders().getLocation()).isNotNull();
+
+        String[] locationUUID = responseEntity.getHeaders().getLocation().getPath().split("/");
+        UUID savedUUID = UUID.fromString(locationUUID[4]);
+
+        Customer customer = customerRepository.findById(savedUUID).get();
+        assertThat(customer).isNotNull();
+    }
+
+    @Test
+    void deleteByIdNotFound() {
+        assertThrows(NotFoundException.class, () -> {
+            customerController.handleDeleteRequest(UUID.randomUUID());
+        });
+    }
+
+    @Rollback
+    @Transactional
+    @Test
+    void deleteByIdFound() {
+        Customer customer = customerRepository.findAll().getFirst();
+
+        ResponseEntity responseEntity = customerController.handleDeleteRequest(customer.getId());
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatusCode.valueOf(204));
+
+        assertThat(customerRepository.findById(customer.getId())).isEmpty();
+    }
 
     @Test
     void testGetAllCustomers () {

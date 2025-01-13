@@ -2,7 +2,6 @@ package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.mappers.BeerMapper;
 import com.drifter.spring6restmvc.model.BeerDTO;
-import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
@@ -23,7 +22,7 @@ public class BeerServiceJPA implements BeerService {
     private final BeerMapper beerMapper;
 
     @Override
-    public List<BeerDTO> listBeers() {
+    public List<BeerDTO> listBeers(String beerName) {
         return beerRepository.findAll()
                 .stream()
                 .map(beerMapper::beerToBeerDto)

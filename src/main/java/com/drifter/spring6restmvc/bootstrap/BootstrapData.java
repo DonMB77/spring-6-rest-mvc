@@ -9,6 +9,7 @@ import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import com.drifter.spring6restmvc.services.BeerCsvService;
+import com.drifter.spring6restmvc.services.BeerCsvServiceImpl;
 import com.drifter.spring6restmvc.services.BeerServiceJPA;
 import com.drifter.spring6restmvc.services.CustomerServiceJPA;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,8 @@ public class BootstrapData implements CommandLineRunner {
         loadBeerData();
         loadCsvData();
         loadCustomerData();
+
+        System.out.println("BEER REPO COUNT: " + beerRepository.count());
     }
 
     private void loadCsvData() throws FileNotFoundException {
@@ -68,14 +71,13 @@ public class BootstrapData implements CommandLineRunner {
                         .quantityOnHand(beerCSVRecord.getCount())
                         .build());
             });
-
         }
     }
 
     private void loadBeerData() {
         if (beerRepository.count() == 0) {
             Beer beer1 = Beer.builder()
-                    .beerName("Galaxy Cat")
+                    .beerName("Galaxy CatTEST")
                     .beerStyle(BeerStyle.PALE_ALE)
                     .upc("12345")
                     .price(new BigDecimal("12.99"))

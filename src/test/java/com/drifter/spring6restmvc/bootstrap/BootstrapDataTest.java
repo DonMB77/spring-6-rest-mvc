@@ -3,6 +3,8 @@ package com.drifter.spring6restmvc.bootstrap;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import com.drifter.spring6restmvc.services.BeerCsvService;
+import com.drifter.spring6restmvc.services.BeerCsvServiceImpl;
+import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ class BootstrapDataTest {
     BeerRepository beerRepository;
 
     @Autowired
-    BeerCsvService beerCsvService;
+    BeerCsvService csvService;
 
     @Autowired
     CustomerRepository customerRepository;
@@ -28,7 +30,7 @@ class BootstrapDataTest {
 
     @BeforeEach
     void setUp() {
-        bootstrapData = new BootstrapData(beerRepository, customerRepository, beerCsvService);
+        bootstrapData = new BootstrapData(beerRepository, customerRepository, csvService);
     }
 
     @Test

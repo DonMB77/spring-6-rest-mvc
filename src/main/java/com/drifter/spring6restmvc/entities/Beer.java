@@ -25,8 +25,8 @@ public class Beer {
     @Id
     @GeneratedValue(generator = "UUID")
     @UuidGenerator
+    @Column(length = 36, columnDefinition = "varchar", updatable = false, nullable = false)
     @JdbcTypeCode(SqlTypes.CHAR)
-    @Column(length = 36, columnDefinition = "varchar(36)", updatable = false, nullable = false)
     private UUID id;
     @Version
     private Integer version;
@@ -40,6 +40,7 @@ public class Beer {
     private BeerStyle beerStyle;
     @NotBlank
     @NotNull
+    @Size(max = 255)
     private String upc;
     private Integer quantityOnHand;
     @NotNull

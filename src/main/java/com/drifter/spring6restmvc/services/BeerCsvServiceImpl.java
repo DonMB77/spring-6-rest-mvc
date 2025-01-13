@@ -2,6 +2,7 @@ package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.model.BeerCSVRecord;
 import com.opencsv.bean.CsvToBeanBuilder;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 

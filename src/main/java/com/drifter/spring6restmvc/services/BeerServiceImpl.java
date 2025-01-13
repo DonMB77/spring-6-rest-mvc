@@ -22,7 +22,7 @@ public class BeerServiceImpl implements BeerService {
         BeerDTO beerDTO1 = BeerDTO.builder()
                 .id(UUID.randomUUID())
                 .version(1)
-                .beerName("Galaxy Cat")
+                .beerName("Galaxy CatTestIMPL")
                 .beerStyle(BeerStyle.PALE_ALE)
                 .upc("12345")
                 .price(new BigDecimal("12.99"))

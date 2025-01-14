@@ -2,12 +2,11 @@ package com.drifter.spring6restmvc.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.annotations.UuidGenerator;
+import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -28,6 +27,12 @@ public class Customer {
     private String costumerName;
     @Column(length = 255)
     private String email;
+    @CreationTimestamp
+    @Column(updatable = false)
     private LocalDateTime createdDate;
+    @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
+
+    @OneToMany
+    private Set<BeerOrder> beerOrders;
 }

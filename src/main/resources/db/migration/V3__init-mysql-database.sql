@@ -3,7 +3,7 @@ drop table if exists beer_order;
 drop table if exists beer_order_line;
 
 create table beer_order (
-   id varchar(36) not null,  
+   id varchar(36) not null,
     created_date datetime(6) DEFAULT NULL,
     last_modified_date datetime(6) DEFAULT NULL,
     version integer DEFAULT NULL,

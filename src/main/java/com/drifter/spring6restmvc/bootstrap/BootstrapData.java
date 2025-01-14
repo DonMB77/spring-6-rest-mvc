@@ -39,8 +39,14 @@ public class BootstrapData implements CommandLineRunner {
         loadBeerData();
         loadCsvData();
         loadCustomerData();
+        //clearDataOfRepo();
 
         System.out.println("BEER REPO COUNT: " + beerRepository.count());
+        System.out.println("BEER REPO COUNT: " + customerRepository.count());
+    }
+
+    private void clearDataOfRepo() {
+        beerRepository.deleteAll();
     }
 
     private void loadCsvData() throws FileNotFoundException {

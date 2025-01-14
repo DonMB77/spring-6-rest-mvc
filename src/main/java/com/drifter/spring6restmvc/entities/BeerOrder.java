@@ -5,6 +5,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 @Getter
@@ -23,7 +24,7 @@ public class BeerOrder {
     private UUID id;
 
     @Version
-    private Long version;
+    private Integer version;
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -41,4 +42,6 @@ public class BeerOrder {
     @ManyToOne
     private Customer customer;
 
+    @OneToMany(mappedBy = "beerOrder")
+    private Set<BeerOrderLine> beerOrderLines;
 }

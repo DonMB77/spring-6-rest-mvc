@@ -6,6 +6,7 @@ import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -39,6 +40,12 @@ public class BeerOrderLine {
     public boolean isNew() {
         return this.id == null;
     }
+
+    @ManyToOne
+    private BeerOrder beerOrder;
+
+    @ManyToOne
+    private Beer beer;
 
     private Integer orderQuantity = 0;
     private Integer quantityAllocated = 0;

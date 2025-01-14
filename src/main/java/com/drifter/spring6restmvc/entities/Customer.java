@@ -33,6 +33,6 @@ public class Customer {
     @UpdateTimestamp
     private LocalDateTime lastModifiedDate;
 
-    @OneToMany
+    @OneToMany(mappedBy = "customer")
     private Set<BeerOrder> beerOrders;
 }

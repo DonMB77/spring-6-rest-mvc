@@ -2,23 +2,22 @@ package com.drifter.spring6restmvc.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.*;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
 import java.util.UUID;
 
-/**
- * Created by jt on 2019-01-26.
- */
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Builder
-public class BeerOrderLine {
-
+public class BeerOrderShipment {
     @Id
     @GeneratedValue(generator = "UUID")
     @UuidGenerator
@@ -27,7 +26,17 @@ public class BeerOrderLine {
     private UUID id;
 
     @Version
-    private Long version;
+    private Integer version;
+
+    @OneToOne
+    private BeerOrder beerOrder;
+
+    private String trackingNumber;
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 
     @CreationTimestamp
     @Column(updatable = false)
@@ -35,17 +44,4 @@ public class BeerOrderLine {
 
     @UpdateTimestamp
     private Timestamp lastModifiedDate;
-
-    public boolean isNew() {
-        return this.id == null;
-    }
-
-    @ManyToOne
-    private BeerOrder beerOrder;
-
-    @ManyToOne
-    private Beer beer;
-
-    private Integer orderQuantity = 0;
-    private Integer quantityAllocated = 0;
 }

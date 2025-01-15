@@ -6,7 +6,6 @@ import org.hibernate.annotations.*;
 import org.hibernate.type.SqlTypes;
 
 import java.sql.Timestamp;
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -14,7 +13,6 @@ import java.util.UUID;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Builder

@@ -15,7 +15,6 @@ import java.util.UUID;
 @Builder
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class Customer {
     @Id
     @GeneratedValue(generator = "UUID")

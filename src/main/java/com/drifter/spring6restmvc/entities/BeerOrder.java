@@ -11,7 +11,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @Entity
-@NoArgsConstructor
 @Builder
 public class BeerOrder {
 

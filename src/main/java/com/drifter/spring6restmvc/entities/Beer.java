@@ -19,7 +19,6 @@ import java.util.UUID;
 @Builder
 @Entity
 @AllArgsConstructor
-@NoArgsConstructor
 public class Beer {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -51,4 +50,9 @@ public class Beer {
 
     @OneToMany(mappedBy = "beer")
     private Set<BeerOrderLine> beerOrderLines;
+
+    @ManyToMany
+    @JoinTable(name = "beer_category",
+            joinColumns = @JoinColumn(name = "beer_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private Set<Category> categories;
 }

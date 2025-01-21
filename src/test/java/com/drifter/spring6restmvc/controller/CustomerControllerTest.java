@@ -1,7 +1,6 @@
 package com.drifter.spring6restmvc.controller;
 
 import com.drifter.spring6restmvc.config.SpringSecConfig;
-import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.services.CustomerService;
 import com.drifter.spring6restmvc.services.CustomerServiceImpl;
@@ -50,8 +49,8 @@ class CustomerControllerTest {
     @Captor
     ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
 
-    String userNameBasicAuth="user1";
-    String passwordBasicAuth="password";
+    public static final String USERNAME="user1";
+    public static final String PASSWORD="password";
 
     @BeforeEach
     void setUp() {
@@ -141,7 +140,7 @@ class CustomerControllerTest {
         given(customerService.getAllCustomers()).willReturn(customerServiceImpl.getAllCustomers());
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH)
-                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
+                        .with(httpBasic(USERNAME, PASSWORD))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -155,7 +154,7 @@ class CustomerControllerTest {
         given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID())
-                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth)))
+                        .with(httpBasic(USERNAME, PASSWORD)))
                 .andExpect(status().isNotFound());
     }
 
@@ -166,7 +165,7 @@ class CustomerControllerTest {
         given(customerService.getCustomerById(exampleCustomerDTO.getId())).willReturn(Optional.of(exampleCustomerDTO));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, exampleCustomerDTO.getId())
-                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
+                        .with(httpBasic(USERNAME, PASSWORD))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

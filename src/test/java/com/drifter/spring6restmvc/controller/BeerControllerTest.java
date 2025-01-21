@@ -1,5 +1,6 @@
 package com.drifter.spring6restmvc.controller;
 
+import com.drifter.spring6restmvc.config.SpringSecConfig;
 import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.services.BeerService;
 import com.drifter.spring6restmvc.services.BeerServiceImpl;
@@ -10,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -31,6 +33,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @WebMvcTest(BeerController.class)
+@Import(SpringSecConfig.class)
 class BeerControllerTest {
 
     @Autowired

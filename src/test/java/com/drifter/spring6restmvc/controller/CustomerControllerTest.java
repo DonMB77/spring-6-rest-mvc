@@ -1,5 +1,6 @@
 package com.drifter.spring6restmvc.controller;
 
+import com.drifter.spring6restmvc.config.SpringSecConfig;
 import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.services.CustomerService;
@@ -11,6 +12,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,6 +30,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CustomerController.class)
+@Import(SpringSecConfig.class)
 class CustomerControllerTest {
 
     @Autowired
@@ -46,6 +49,9 @@ class CustomerControllerTest {
 
     @Captor
     ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
+
+    String userNameBasicAuth="user1";
+    String passwordBasicAuth="password";
 
     @BeforeEach
     void setUp() {
@@ -135,7 +141,7 @@ class CustomerControllerTest {
         given(customerService.getAllCustomers()).willReturn(customerServiceImpl.getAllCustomers());
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH)
-                        .with(httpBasic("user1", "password"))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -149,7 +155,7 @@ class CustomerControllerTest {
         given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID())
-                        .with(httpBasic("user1", "password")))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth)))
                 .andExpect(status().isNotFound());
     }
 
@@ -160,7 +166,7 @@ class CustomerControllerTest {
         given(customerService.getCustomerById(exampleCustomerDTO.getId())).willReturn(Optional.of(exampleCustomerDTO));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, exampleCustomerDTO.getId())
-                        .with(httpBasic("user1", "password"))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

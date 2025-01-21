@@ -53,6 +53,9 @@ class BeerControllerTest {
     @Captor
     ArgumentCaptor<BeerDTO> beerArgumentCaptor;
 
+    String userNameBasicAuth="user1";
+    String passwordBasicAuth="password";
+
     @BeforeEach
     void setUp() {
         beerServiceImpl = new BeerServiceImpl();
@@ -160,7 +163,7 @@ class BeerControllerTest {
         given(beerService.listBeers(any(), any(), any(), any(), any())).willReturn(beerServiceImpl.listBeers(null, null, false, 1, 25));
 
         mockMvc.perform(get(BeerController.BEER_PATH)
-                        .with(httpBasic("user1", "password"))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -173,7 +176,7 @@ class BeerControllerTest {
         given(beerService.getBeerById(any(UUID.class))).willReturn(Optional.empty());
 
         mockMvc.perform(get(BeerController.BEER_PATH_ID, UUID.randomUUID())
-                        .with(httpBasic("user1", "password")))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth)))
                 .andExpect(status().isNotFound());
     }
 
@@ -187,7 +190,7 @@ class BeerControllerTest {
         // we make an assertion here. Look at the last line. This will check whether the correct beerName is given.
         // this is a bit convoluted especially with all the static imports...
         mockMvc.perform(get(BeerController.BEER_PATH_ID, testBeerDTO.getId())
-                        .with(httpBasic("user1", "password"))
+                        .with(httpBasic(userNameBasicAuth, passwordBasicAuth))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

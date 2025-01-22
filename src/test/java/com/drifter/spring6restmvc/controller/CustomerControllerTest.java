@@ -19,6 +19,7 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.*;
 
+import static com.drifter.spring6restmvc.controller.BeerControllerTest.jwtRequestPostProcessor;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.core.Is.is;
 import static org.mockito.ArgumentMatchers.any;
@@ -49,12 +50,9 @@ class CustomerControllerTest {
     @Captor
     ArgumentCaptor<CustomerDTO> customerArgumentCaptor;
 
-    public static final String USERNAME="user1";
-    public static final String PASSWORD="password";
-
     @BeforeEach
     void setUp() {
-        customerServiceImpl  = new CustomerServiceImpl();
+        customerServiceImpl = new CustomerServiceImpl();
     }
 
     @Test
@@ -65,6 +63,7 @@ class CustomerControllerTest {
         given(customerService.saveCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.getAllCustomers().get(1));
 
         MvcResult mvcResult = mockMvc.perform(post(CustomerController.CUSTOMER_PATH)
+                        .with(jwtRequestPostProcessor)
                         .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerDTO)))
@@ -74,15 +73,16 @@ class CustomerControllerTest {
     }
 
     @Test
-    void testPatchById() throws Exception{
+    void testPatchById() throws Exception {
         CustomerDTO customerDTO = customerServiceImpl.getAllCustomers().getFirst();
 
         Map<String, Object> customerMap = new HashMap<>();
         customerMap.put("costumerName", "newName");
 
         mockMvc.perform(patch(CustomerController.CUSTOMER_PATH_ID, customerDTO.getId())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
+                        .with(jwtRequestPostProcessor)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(customerMap)))
                 .andExpect(status().isNoContent());
 
@@ -98,7 +98,8 @@ class CustomerControllerTest {
         given(customerService.deleteById(any())).willReturn(true);
 
         mockMvc.perform(delete(CustomerController.CUSTOMER_PATH_ID, customerDTO.getId())
-                .accept(MediaType.APPLICATION_JSON))
+                        .with(jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
 
         verify(customerService).deleteById(uuidArgumentCaptor.capture());
@@ -107,28 +108,30 @@ class CustomerControllerTest {
     }
 
     @Test
-    void testUpdateById () throws Exception {
+    void testUpdateById() throws Exception {
         CustomerDTO customerDTOToBeUpdated = customerServiceImpl.getAllCustomers().getFirst();
 
         mockMvc.perform(put(CustomerController.CUSTOMER_PATH_ID, customerDTOToBeUpdated.getId())
-                .accept(MediaType.APPLICATION_JSON)
+                        .with(jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON)
                         .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(customerDTOToBeUpdated)))
+                        .content(objectMapper.writeValueAsString(customerDTOToBeUpdated)))
                 .andExpect(status().isNoContent());
 
         verify(customerService).updateById(any(UUID.class), any(CustomerDTO.class));
     }
 
     @Test
-    void testSaveCustomer () throws Exception {
+    void testSaveCustomer() throws Exception {
         CustomerDTO newCustomerDTO = customerServiceImpl.getAllCustomers().getFirst();
         newCustomerDTO.setId(null);
 
         given(customerService.saveCustomer(any(CustomerDTO.class))).willReturn(customerServiceImpl.getAllCustomers().get(1));
 
         mockMvc.perform(post(CustomerController.CUSTOMER_PATH)
-                .accept(MediaType.APPLICATION_JSON)
-                .contentType(MediaType.APPLICATION_JSON)
+                        .with(jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(newCustomerDTO)))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
@@ -136,12 +139,12 @@ class CustomerControllerTest {
     }
 
     @Test
-    void getAllCustomers() throws Exception{
+    void getAllCustomers() throws Exception {
         given(customerService.getAllCustomers()).willReturn(customerServiceImpl.getAllCustomers());
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH)
-                        .with(httpBasic(USERNAME, PASSWORD))
-                .accept(MediaType.APPLICATION_JSON))
+                        .with(jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.length()", is(3)));
@@ -149,24 +152,23 @@ class CustomerControllerTest {
 
     @Test
     void getCustomerByIdNotFound() throws Exception {
-        Random r1 = new Random();
 
         given(customerService.getCustomerById(any(UUID.class))).willThrow(NotFoundException.class);
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, UUID.randomUUID())
-                        .with(httpBasic(USERNAME, PASSWORD)))
+                        .with(jwtRequestPostProcessor))
                 .andExpect(status().isNotFound());
     }
 
     @Test
-    void getCustomerById() throws Exception{
+    void getCustomerById() throws Exception {
         CustomerDTO exampleCustomerDTO = customerServiceImpl.getAllCustomers().getFirst();
 
         given(customerService.getCustomerById(exampleCustomerDTO.getId())).willReturn(Optional.of(exampleCustomerDTO));
 
         mockMvc.perform(get(CustomerController.CUSTOMER_PATH_ID, exampleCustomerDTO.getId())
-                        .with(httpBasic(USERNAME, PASSWORD))
-                .accept(MediaType.APPLICATION_JSON))
+                        .with(jwtRequestPostProcessor)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(exampleCustomerDTO.getId().toString())))

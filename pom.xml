@@ -117,6 +117,55 @@
 	<build>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.36</version>
+						</path>
+						<path>
+							<groupId>org.mapstruct</groupId>
+							<artifactId>mapstruct-processor</artifactId>
+							<version>${org.mapstruct.version}</version>
+						</path>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok-mapstruct-binding</artifactId>
+							<version>0.2.0</version>
+						</path>
+					</annotationProcessorPaths>
+					<compilerArgs>
+						<compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
+					</compilerArgs>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.flywaydb</groupId>
+				<artifactId>flyway-maven-plugin</artifactId>
+				<version>10.17.0</version>
+				<configuration>
+					<url>jdbc:mysql://127.0.0.1:3306/restdb</url>
+					<user>restadmin</user>
+					<password>password</password>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-failsafe-plugin</artifactId>
+				<version>3.5.2</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>integration-test</goal>
+							<goal>verify</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<executions>
@@ -148,10 +197,6 @@
 				<groupId>org.springdoc</groupId>
 				<artifactId>springdoc-openapi-maven-plugin</artifactId>
 				<version>1.4</version>
-				<configuration>
-					<apiDocsUrl>http://localhost:8081/v3/api-docs.yaml</apiDocsUrl>
-					<outputFileName>oa3.yml</outputFileName>
-				</configuration>
 				<executions>
 					<execution>
 						<id>integration-test</id>
@@ -161,68 +206,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.13.0</version>
-				<configuration>
-					<source>21</source>
-					<target>21</target>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.mapstruct</groupId>
-							<artifactId>mapstruct-processor</artifactId>
-							<version>${org.mapstruct.version}</version>
-						</path>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-							<version>${lombok.version}</version>
-						</path>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok-mapstruct-binding</artifactId>
-							<version>0.2.0</version>
-						</path>
-					</annotationProcessorPaths>
-					<compilerArgs>
-						<compilerArg>-Amapstruct.defaultComponentModel=spring</compilerArg>
-					</compilerArgs>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<version>3.5.2</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
-	<repositories>
-		<repository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>spring-milestones</id>
-			<name>Spring Milestones</name>
-			<url>https://repo.spring.io/milestone</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+
 </project>

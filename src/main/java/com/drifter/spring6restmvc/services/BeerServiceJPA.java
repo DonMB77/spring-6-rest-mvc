@@ -6,6 +6,8 @@ import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.BeerStyle;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Primary;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @Primary
 @RequiredArgsConstructor
@@ -95,8 +98,11 @@ public class BeerServiceJPA implements BeerService {
         return beerRepository.findAllByBeerStyle(beerStyle, pageable);
     }
 
+    @Cacheable(cacheNames = "beerCache", key = "#id")
     @Override
     public Optional<BeerDTO> getBeerById(UUID id) {
+        log.info("Get Beer by id - in service");
+
         return Optional.ofNullable(beerMapper.beerToBeerDto(beerRepository.findById(id)
                 .orElse(null)));
     }

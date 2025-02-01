@@ -1,18 +1,17 @@
 package com.drifter.spring6restmvc.bootstrap;
 
 import com.drifter.spring6restmvc.entities.Beer;
+import com.drifter.spring6restmvc.entities.BeerOrder;
+import com.drifter.spring6restmvc.entities.BeerOrderLine;
 import com.drifter.spring6restmvc.entities.Customer;
 import com.drifter.spring6restmvc.model.BeerCSVRecord;
-import com.drifter.spring6restmvc.model.BeerDTO;
 import com.drifter.spring6restmvc.model.BeerStyle;
-import com.drifter.spring6restmvc.model.CustomerDTO;
+import com.drifter.spring6restmvc.repositories.BeerOrderRepository;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import com.drifter.spring6restmvc.services.BeerCsvService;
-import com.drifter.spring6restmvc.services.BeerCsvServiceImpl;
-import com.drifter.spring6restmvc.services.BeerServiceJPA;
-import com.drifter.spring6restmvc.services.CustomerServiceJPA;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -23,7 +22,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 @Component
 @RequiredArgsConstructor
@@ -32,21 +33,58 @@ public class BootstrapData implements CommandLineRunner {
     private final BeerRepository beerRepository;
     private final CustomerRepository customerRepository;
     private final BeerCsvService beerCsvService;
+    private final BeerOrderRepository beerOrderRepository;
 
     @Transactional
     @Override
     public void run(String... args) throws Exception {
+        //clearDataOfBeerOrderRepo();
         loadBeerData();
         loadCsvData();
         loadCustomerData();
-        //clearDataOfRepo();
+        loadOrderData();
+        //clearDataOfBeerRepo();
 
         System.out.println("BEER REPO COUNT: " + beerRepository.count());
         System.out.println("BEER REPO COUNT: " + customerRepository.count());
     }
 
-    private void clearDataOfRepo() {
+    private void clearDataOfBeerRepo() {
         beerRepository.deleteAll();
+    }
+
+    private void clearDataOfBeerOrderRepo() {
+        beerOrderRepository.deleteAll();
+    }
+
+    private void loadOrderData() {
+        val customersList = customerRepository.findAll();
+        val beersList = beerRepository.findAll();
+
+        val beerIterator = beersList.iterator();
+
+        customersList.forEach(customer -> {
+            Beer beer1 = beerIterator.next();
+            Beer beer2 = beerIterator.next();
+
+            val beerOrder = BeerOrder.builder()
+                    .customer(customer)
+                    .beerOrderLines(Set.of(
+                            BeerOrderLine.builder()
+                                    .beer(beer1)
+                                    .orderQuantity(1)
+                                    .build(),
+                            BeerOrderLine.builder()
+                                    .beer(beer2)
+                                    .orderQuantity(1)
+                                    .build()
+                    ))
+                    .build();
+            beerOrderRepository.save(beerOrder);
+        });
+
+        val orders = beerOrderRepository.findAll();
+
     }
 
     private void loadCsvData() throws FileNotFoundException {

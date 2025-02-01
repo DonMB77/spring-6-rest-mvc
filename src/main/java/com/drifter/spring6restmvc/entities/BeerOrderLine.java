@@ -48,6 +48,6 @@ public class BeerOrderLine {
     private Beer beer;
 
     @Min(value = 1, message = "Quantity as to be greater than 0")
-    private Integer orderQuantity = 0;
+    private Integer orderQuantity = 1;
     private Integer quantityAllocated = 0;
 }

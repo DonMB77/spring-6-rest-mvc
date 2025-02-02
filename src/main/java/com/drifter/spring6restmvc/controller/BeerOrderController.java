@@ -45,4 +45,9 @@ public class BeerOrderController {
 
         return new ResponseEntity(headers, HttpStatus.CREATED);
     }
+
+    @PatchMapping(BEER_ORDER_PATH_ID)
+    public ResponseEntity<Void> handlePatch(@Validated @RequestBody BeerOrderCreateDTO beerOrderCreateDTO) {
+
+    }
 }

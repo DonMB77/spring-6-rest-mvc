@@ -1,13 +1,16 @@
 package com.drifter.spring6restmvc.controller;
 
+import com.drifter.spring6restmvc.entities.BeerOrder;
+import com.drifter.spring6restmvc.model.BeerOrderCreateDTO;
 import com.drifter.spring6restmvc.model.BeerOrderDTO;
 import com.drifter.spring6restmvc.services.BeerOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -30,5 +33,16 @@ public class BeerOrderController {
     public BeerOrderDTO getBeerOrderById(@PathVariable("beerOrderId") UUID beerOrderId) {
 
         return beerOrderService.getBeerOrderById(beerOrderId).orElseThrow(NotFoundException::new);
+    }
+
+    @PostMapping(BEER_ORDER_PATH)
+    public ResponseEntity<Void> handlePost(@Validated @RequestBody BeerOrderCreateDTO beerOrderCreateDTO) {
+
+        BeerOrder savedOrder = beerOrderService.saveNewBeerOrder(beerOrderCreateDTO);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", BEER_ORDER_PATH_ID + "/" + savedOrder.getId().toString());
+
+        return new ResponseEntity(headers, HttpStatus.CREATED);
     }
 }

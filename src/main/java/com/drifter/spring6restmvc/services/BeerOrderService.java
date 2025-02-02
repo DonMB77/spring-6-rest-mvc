@@ -1,5 +1,7 @@
 package com.drifter.spring6restmvc.services;
 
+import com.drifter.spring6restmvc.entities.BeerOrder;
+import com.drifter.spring6restmvc.model.BeerOrderCreateDTO;
 import com.drifter.spring6restmvc.model.BeerOrderDTO;
 import org.springframework.data.domain.Page;
 
@@ -12,7 +14,7 @@ public interface BeerOrderService {
 
     Optional<BeerOrderDTO> getBeerOrderById(UUID id);
 
-    //BeerOrderDTO saveNewBeer(BeerOrderDTO beer);
+    BeerOrder saveNewBeerOrder(BeerOrderCreateDTO beer);
 
     //Optional<BeerOrderDTO> updateBeerById(UUID beerOrderId, BeerOrderDTO beer);
 

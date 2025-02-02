@@ -33,7 +33,6 @@ public class BeerOrderControllerIT {
     @Autowired
     WebApplicationContext wac;
 
-    @Autowired
     MockMvc mockMvc;
 
     @BeforeEach
@@ -64,7 +63,7 @@ public class BeerOrderControllerIT {
     }
 
     @Test
-    void testGetBeerListAll() throws Exception {
+    void testListBeerOrders() throws Exception {
         mockMvc.perform(get(BeerOrderController.BEER_ORDER_PATH)
                         .with(jwtRequestPostProcessor))
                 .andExpect(status().isOk())

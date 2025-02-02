@@ -8,9 +8,9 @@ import java.util.UUID;
 
 public interface BeerOrderService {
 
-    Page<BeerOrderDTO> listBeers(String customerRef, Integer pageNumber, Integer pageSize);
+    Page<BeerOrderDTO> listBeerOrders(Integer pageNumber, Integer pageSize);
 
-    Optional<BeerOrderDTO> getBeerById(UUID id);
+    Optional<BeerOrderDTO> getBeerOrderById(UUID id);
 
     //BeerOrderDTO saveNewBeer(BeerOrderDTO beer);
 

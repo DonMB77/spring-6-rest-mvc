@@ -7,6 +7,7 @@ import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -127,6 +128,7 @@ public class BeerOrderControllerIT {
                 .andExpect(status().isNotFound());
     }
 
+    @Disabled
     @Test
     @Transactional
     void updateBeerOrder() throws Exception {

@@ -23,6 +23,7 @@ import java.util.Set;
 
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.jwt;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -102,9 +103,9 @@ public class BeerOrderControllerIT {
                 .build();
 
         mockMvc.perform(post(BeerOrderController.BEER_ORDER_PATH)
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(beerOrderCreateDTO))
-                .with(jwtRequestPostProcessor))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(beerOrderCreateDTO))
+                        .with(jwtRequestPostProcessor))
                 .andExpect(status().isCreated())
                 .andExpect(header().exists("Location"));
     }
@@ -112,6 +113,22 @@ public class BeerOrderControllerIT {
     @Test
     @Transactional
     @Rollback
+    void deleteBeerOrderTest() throws Exception {
+        val beerOrder = beerOrderRepository.findAll().getFirst();
+
+        mockMvc.perform(delete(BeerOrderController.BEER_ORDER_PATH_ID, beerOrder.getId())
+                        .with(jwtRequestPostProcessor))
+                .andExpect(status().isOk());
+
+        assertTrue(beerOrderRepository.findById(beerOrder.getId()).isEmpty());
+
+        mockMvc.perform(delete(BeerOrderController.BEER_ORDER_PATH_ID, beerOrder.getId())
+                        .with(jwtRequestPostProcessor))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
     void updateBeerOrder() throws Exception {
         val beerOrder = beerOrderRepository.findAll().getFirst();
 
@@ -119,10 +136,10 @@ public class BeerOrderControllerIT {
 
         beerOrder.getBeerOrderLines().forEach(beerOrderLine -> {
             lines.add(BeerOrderLineUpdateDTO.builder()
-                            .id(beerOrderLine.getId())
-                            .beerId(beerOrderLine.getBeer().getId())
-                            .orderQuantity(beerOrderLine.getOrderQuantity())
-                            .quantityAllocated(beerOrderLine.getQuantityAllocated())
+                    .id(beerOrderLine.getId())
+                    .beerId(beerOrderLine.getBeer().getId())
+                    .orderQuantity(beerOrderLine.getOrderQuantity())
+                    .quantityAllocated(beerOrderLine.getQuantityAllocated())
                     .build());
         });
 
@@ -136,9 +153,9 @@ public class BeerOrderControllerIT {
                 .build();
 
         mockMvc.perform(put(BeerOrderController.BEER_ORDER_PATH_ID, beerOrder.getId())
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(beerOrderUpdateDTO))
-                .with(jwtRequestPostProcessor))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(beerOrderUpdateDTO))
+                        .with(jwtRequestPostProcessor))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.customerRef", is("test new Ref")));
     }

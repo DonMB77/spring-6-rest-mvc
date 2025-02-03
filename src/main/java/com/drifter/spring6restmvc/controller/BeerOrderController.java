@@ -51,4 +51,10 @@ public class BeerOrderController {
     public ResponseEntity<BeerOrderDTO> handlePatch(@RequestBody BeerOrderUpdateDTO beerOrderUpdateDTO, @PathVariable("beerOrderId") UUID beerOrderId) {
         return ResponseEntity.ok(beerOrderService.updateOrder(beerOrderId, beerOrderUpdateDTO));
     }
+
+    @DeleteMapping(BEER_ORDER_PATH_ID)
+    public ResponseEntity<Void> handleDelete(@PathVariable("beerOrderId") UUID beerOrderId) {
+        beerOrderService.deleteOrderById(beerOrderId);
+        return ResponseEntity.noContent().build();
+    }
 }

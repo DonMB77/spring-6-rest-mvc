@@ -18,4 +18,5 @@ public class BeerOrderLineDTO {
     @Min(value = 1, message = "Quantity as to be greater than 0")
     private Integer orderQuantity = 0;
     private Integer quantityAllocated = 0;
+    private BeerOrderLineStatus beerOrderLineStatus;
 }

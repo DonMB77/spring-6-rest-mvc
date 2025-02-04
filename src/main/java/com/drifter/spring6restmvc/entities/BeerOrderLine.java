@@ -1,5 +1,6 @@
 package com.drifter.spring6restmvc.entities;
 
+import com.drifter.spring6restmvc.model.BeerOrderLineStatus;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import lombok.*;
@@ -50,4 +51,8 @@ public class BeerOrderLine {
     @Min(value = 1, message = "Quantity as to be greater than 0")
     private Integer orderQuantity = 1;
     private Integer quantityAllocated = 0;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    private BeerOrderLineStatus beerOrderLineStatus;
 }

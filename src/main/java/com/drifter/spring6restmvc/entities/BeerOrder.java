@@ -1,10 +1,17 @@
 package com.drifter.spring6restmvc.entities;
+
 import jakarta.persistence.*;
-import jakarta.persistence.CascadeType;
-import lombok.*;
-import org.hibernate.annotations.*;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.type.SqlTypes;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.Set;
 import java.util.UUID;
@@ -16,12 +23,13 @@ import java.util.UUID;
 @Builder
 public class BeerOrder {
 
-    public BeerOrder(UUID id, Integer version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, Customer customer, Set<BeerOrderLine> beerOrderLines, BeerOrderShipment beerOrderShipment) {
+    public BeerOrder(UUID id, Integer version, Timestamp createdDate, Timestamp lastModifiedDate, String customerRef, BigDecimal paymentAmount, Customer customer, Set<BeerOrderLine> beerOrderLines, BeerOrderShipment beerOrderShipment) {
         this.id = id;
         this.version = version;
         this.createdDate = createdDate;
         this.lastModifiedDate = lastModifiedDate;
         this.customerRef = customerRef;
+        this.paymentAmount = paymentAmount;
         this.setCustomer(customer);
         // to set the relationship (persistence)
         this.setBeerOrderLines(beerOrderLines);
@@ -50,6 +58,8 @@ public class BeerOrder {
     }
 
     private String customerRef;
+
+    private BigDecimal paymentAmount;
 
     @ManyToOne
     private Customer customer;

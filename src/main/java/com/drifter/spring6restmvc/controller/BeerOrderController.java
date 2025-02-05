@@ -1,10 +1,10 @@
 package com.drifter.spring6restmvc.controller;
 
 import com.drifter.spring6restmvc.entities.BeerOrder;
-import com.drifter.spring6restmvc.model.BeerOrderCreateDTO;
-import com.drifter.spring6restmvc.model.BeerOrderDTO;
-import com.drifter.spring6restmvc.model.BeerOrderUpdateDTO;
 import com.drifter.spring6restmvc.services.BeerOrderService;
+import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;

@@ -1,7 +1,7 @@
 package com.drifter.spring6restmvc.repositories;
 
 import com.drifter.spring6restmvc.entities.Beer;
-import com.drifter.spring6restmvc.model.BeerStyle;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

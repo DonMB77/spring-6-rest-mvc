@@ -1,6 +1,6 @@
 package com.drifter.spring6restmvc.services;
 
-import com.drifter.spring6restmvc.model.CustomerDTO;
+import guru.springframework.spring6restmvcapi.model.CustomerDTO;
 
 import java.util.List;
 import java.util.Optional;

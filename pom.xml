@@ -76,6 +76,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-cache</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>guru.springframework</groupId>
+			<artifactId>spring-6-rest-mvc-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 
 
 		<dependency>

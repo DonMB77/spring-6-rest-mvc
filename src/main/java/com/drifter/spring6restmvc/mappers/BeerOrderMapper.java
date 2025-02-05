@@ -3,9 +3,9 @@ package com.drifter.spring6restmvc.mappers;
 import com.drifter.spring6restmvc.entities.BeerOrder;
 import com.drifter.spring6restmvc.entities.BeerOrderLine;
 import com.drifter.spring6restmvc.entities.BeerOrderShipment;
-import com.drifter.spring6restmvc.model.BeerOrderDTO;
-import com.drifter.spring6restmvc.model.BeerOrderLineDTO;
-import com.drifter.spring6restmvc.model.BeerOrderShipmentDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderLineDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderShipmentDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

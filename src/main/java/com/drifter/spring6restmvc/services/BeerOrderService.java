@@ -1,9 +1,9 @@
 package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.entities.BeerOrder;
-import com.drifter.spring6restmvc.model.BeerOrderCreateDTO;
-import com.drifter.spring6restmvc.model.BeerOrderDTO;
-import com.drifter.spring6restmvc.model.BeerOrderUpdateDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderDTO;
+import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDTO;
 import org.springframework.data.domain.Page;
 
 import java.util.Optional;

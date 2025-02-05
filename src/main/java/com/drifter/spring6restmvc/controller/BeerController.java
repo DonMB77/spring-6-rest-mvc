@@ -1,8 +1,8 @@
 package com.drifter.spring6restmvc.controller;
 
-import com.drifter.spring6restmvc.model.BeerDTO;
-import com.drifter.spring6restmvc.model.BeerStyle;
 import com.drifter.spring6restmvc.services.BeerService;
+import guru.springframework.spring6restmvcapi.model.BeerDTO;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

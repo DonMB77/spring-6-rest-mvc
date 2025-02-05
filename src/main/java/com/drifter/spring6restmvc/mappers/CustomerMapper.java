@@ -1,7 +1,7 @@
 package com.drifter.spring6restmvc.mappers;
 
 import com.drifter.spring6restmvc.entities.Customer;
-import com.drifter.spring6restmvc.model.CustomerDTO;
+import guru.springframework.spring6restmvcapi.model.CustomerDTO;
 import org.mapstruct.Mapper;
 
 @Mapper

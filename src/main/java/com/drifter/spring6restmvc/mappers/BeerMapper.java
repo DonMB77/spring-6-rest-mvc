@@ -2,7 +2,7 @@ package com.drifter.spring6restmvc.mappers;
 
 import com.drifter.spring6restmvc.entities.Beer;
 import com.drifter.spring6restmvc.entities.BeerAudit;
-import com.drifter.spring6restmvc.model.BeerDTO;
+import guru.springframework.spring6restmvcapi.model.BeerDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

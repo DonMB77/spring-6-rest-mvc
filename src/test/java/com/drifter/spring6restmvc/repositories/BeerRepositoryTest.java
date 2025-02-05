@@ -2,8 +2,8 @@ package com.drifter.spring6restmvc.repositories;
 
 import com.drifter.spring6restmvc.bootstrap.BootstrapData;
 import com.drifter.spring6restmvc.entities.Beer;
-import com.drifter.spring6restmvc.model.BeerStyle;
 import com.drifter.spring6restmvc.services.BeerCsvServiceImpl;
+import guru.springframework.spring6restmvcapi.model.BeerStyle;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

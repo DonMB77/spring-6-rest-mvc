@@ -1,9 +1,8 @@
 package com.drifter.spring6restmvc.services;
 
 import com.drifter.spring6restmvc.mappers.CustomerMapper;
-import com.drifter.spring6restmvc.model.BeerDTO;
-import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.CustomerDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;

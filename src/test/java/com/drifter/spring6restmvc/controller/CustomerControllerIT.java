@@ -2,9 +2,9 @@ package com.drifter.spring6restmvc.controller;
 
 import com.drifter.spring6restmvc.entities.Customer;
 import com.drifter.spring6restmvc.mappers.CustomerMapper;
-import com.drifter.spring6restmvc.model.CustomerDTO;
 import com.drifter.spring6restmvc.repositories.BeerOrderRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.model.CustomerDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

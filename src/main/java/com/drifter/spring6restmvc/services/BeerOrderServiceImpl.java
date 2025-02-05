@@ -133,8 +133,7 @@ public class BeerOrderServiceImpl implements BeerOrderService {
 
         if (beerOrderUpdateDTO.getPaymentAmount() != null) {
             applicationEventPublisher.publishEvent(OrderPlacedEvent.builder()
-                            .beerOrderDTO(dto)
-                    .build());
+                            .beerOrderDTO(dto));
         }
 
         return dto;

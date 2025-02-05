@@ -57,5 +57,5 @@ public class BeerOrderLine {
 
     @Builder.Default
     @Enumerated(EnumType.STRING)
-    private BeerOrderLineStatus beerOrderLineStatus;
+    private BeerOrderLineStatus beerOrderLineStatus = BeerOrderLineStatus.NEW;
 }

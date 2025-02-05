@@ -1,10 +1,10 @@
 package com.drifter.spring6restmvc.controller;
 
-import com.drifter.spring6restmvc.model.*;
 import com.drifter.spring6restmvc.repositories.BeerOrderRepository;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import guru.springframework.spring6restmvcapi.model.*;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;

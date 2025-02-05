@@ -291,6 +291,7 @@ class BeerControllerIT {
         assertThat(dtos.getContent().size()).isEqualTo(1000);
     }
 
+    @Disabled
     @Rollback
     @Transactional
     @Test

@@ -9,11 +9,13 @@ import com.drifter.spring6restmvc.mappers.BeerOrderMapper;
 import com.drifter.spring6restmvc.repositories.BeerOrderRepository;
 import com.drifter.spring6restmvc.repositories.BeerRepository;
 import com.drifter.spring6restmvc.repositories.CustomerRepository;
+import guru.springframework.spring6restmvcapi.events.OrderPlacedEvent;
 import guru.springframework.spring6restmvcapi.model.BeerOrderCreateDTO;
 import guru.springframework.spring6restmvcapi.model.BeerOrderDTO;
 import guru.springframework.spring6restmvcapi.model.BeerOrderUpdateDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class BeerOrderServiceImpl implements BeerOrderService {
     private final CustomerRepository customerRepository;
     private final BeerRepository beerRepository;
     private final BeerOrderMapper beerOrderMapper;
-
+    private final ApplicationEventPublisher applicationEventPublisher;
 
     private static final int DEFAULT_PAGE = 0;
     private static final int DEFAULT_PAGE_SIZE = 25;
@@ -126,7 +128,16 @@ public class BeerOrderServiceImpl implements BeerOrderService {
                 order.getBeerOrderShipment().setTrackingNumber(beerOrderUpdateDTO.getBeerOrderShipment().getTrackingNumber());
             }
         }
-        return beerOrderMapper.beerOrderToBeerOrderDto(beerOrderRepository.save(order));
+
+        BeerOrderDTO dto = beerOrderMapper.beerOrderToBeerOrderDto(beerOrderRepository.save(order));
+
+        if (beerOrderUpdateDTO.getPaymentAmount() != null) {
+            applicationEventPublisher.publishEvent(OrderPlacedEvent.builder()
+                            .beerOrderDTO(dto)
+                    .build());
+        }
+
+        return dto;
     }
 
     @Override

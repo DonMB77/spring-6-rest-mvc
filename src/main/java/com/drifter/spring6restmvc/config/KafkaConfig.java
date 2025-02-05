@@ -8,4 +8,5 @@ public class KafkaConfig {
     public static final String DRINK_REQUEST_ICE_COLD_TOPIC = "order.request.icecold";
     public static final String DRINK_REQUEST_COLD_TOPIC = "order.request.cold";
     public static final String DRINK_REQUEST_COOL_TOPIC = "order.request.cool";
+    public static final String DRINK_PREPARED_TOPIC = "drink.prepared";
 }
